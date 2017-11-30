@@ -35,7 +35,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x6e27bffd2a104bea1c870be76aab1cce13bebb0db40606773827517da9528174");
+uint256 hashGenesisBlock("0xd20dc54be8ba24f29607d32849c84e6400405ca1d3d8736cc3e9963e6a43d8cc");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Kaori: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -1092,7 +1092,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 
     // PREMINE 10% KAO FOR TEAM
     if (nHeight == 1)
-        nSubsidy = ((MAX_MONEY / 100) * 10) * COIN;
+        nSubsidy = ((MAX_MONEY * COIN) / 100) * 10;
 
    // AFTER BLOCK 1
      if (nHeight > 1)
@@ -2756,7 +2756,7 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 0xc1;
         pchMessageStart[2] = 0xb7;
         pchMessageStart[3] = 0xdc;
-        hashGenesisBlock = uint256("0xf5ae71e26c74beacc88382716aced69cddf3dffff24f384e1808905e0188f68f");
+        hashGenesisBlock = uint256("0xd20dc54be8ba24f29607d32849c84e6400405ca1d3d8736cc3e9963e6a43d8cc");
     }
 
     //
@@ -2804,12 +2804,12 @@ bool InitBlockIndex() {
         block.nVersion = 1;
         block.nTime    = 1512050829;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 0;
+        block.nNonce   = 345583;
 
         if (fTestNet)
         {
             block.nTime    = 1512050829;
-            block.nNonce   = 0;
+            block.nNonce   = 345583;
         }
 
         //// debug print
@@ -2817,9 +2817,12 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x"));
+        assert(block.hashMerkleRoot == uint256("0x49d944dc9dec66073b5c3c353e700c6a9567511976e886a8c24e0672049befeb"));
         block.print();
-        assert(hash == hashGenesisBlock);
+        assert(block.GetHash() == hashGenesisBlock);
+
+
+
 
         // If genesis block hash does not match, then generate new genesis hash.
        if (false && block.GetHash() != hashGenesisBlock)
