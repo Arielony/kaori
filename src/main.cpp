@@ -35,7 +35,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0xd20dc54be8ba24f29607d32849c84e6400405ca1d3d8736cc3e9963e6a43d8cc");
+uint256 hashGenesisBlock("0x0ab492fec42fa2dd6bbc67c51e8d5418f41351599051ca40b26a43084b202a93");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Kaori: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -1092,7 +1092,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 
     // PREMINE 10% KAO FOR TEAM
     if (nHeight == 1)
-        nSubsidy = ((MAX_MONEY * COIN) / 100) * 10;
+        nSubsidy = (MAX_MONEY / 100) * 10;
 
    // AFTER BLOCK 1
      if (nHeight > 1)
@@ -2795,20 +2795,20 @@ bool InitBlockIndex() {
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 50 * COIN;
+        txNew.vout[0].nValue = 201 * COIN;
         txNew.vout[0].scriptPubKey = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1512050829;
+        block.nTime    = 1512067757;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 345583;
+        block.nNonce   = 1746759;
 
         if (fTestNet)
         {
-            block.nTime    = 1512050829;
+            block.nTime    = 1512067757;
             block.nNonce   = 345583;
         }
 
@@ -2817,11 +2817,11 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x49d944dc9dec66073b5c3c353e700c6a9567511976e886a8c24e0672049befeb"));
+        assert(block.hashMerkleRoot == uint256("0x29a5b3c99141cc0f216b3f2fd17db7ab7a55665fc89244540cab6d64e84b5b5a"));
         block.print();
-        assert(block.GetHash() == hashGenesisBlock);
-
-
+	//printf(hashGenesisBlock.ToString().c_str());
+	//printf(hash.ToString().c_str());
+        // assert(hash == hashGenesisBlock);
 
 
         // If genesis block hash does not match, then generate new genesis hash.
@@ -2855,6 +2855,7 @@ bool InitBlockIndex() {
            printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
        }
 
+	 assert(hash == hashGenesisBlock);
 
         // Start new block file
         try {
